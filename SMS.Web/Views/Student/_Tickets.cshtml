@@ -1,7 +1,28 @@
 @model Student
 
 <h4>Tickets</h4>
-<table class="table table-sm">
-    <!-- complete the table to display the Model Tickets property (list of ticket) -->   
-
-</table> 
+<table class="table table-hover mt-4">
+    <!-- complete the table to display the Model Tickets property (list of ticket) -->
+    <thead>
+        <th>ID</th>
+        <th>Issue</th>
+        <th>Date Opened</th>
+        <th>Active</th>
+        <th>Actions</th>
+    </thead>
+    <tbody>
+        @foreach (var t in Model.Tickets)
+        {
+            <tr>
+                <td>@t.Id</td>
+                <td>@t.Issue</td>
+                <td>@t.CreatedOn</td>
+                <td>@t.Active</td>
+                <td>
+                    <a class="btn btn-link p-0 m-0" asp-action="TicketDelete"
+                    asp-route-id="@t.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,33 +1,37 @@
 @model Ticket
-    
+
 
 <div class="card rounded shadow p-4">
     <h3>Delete Ticket</h3>
-    <h5 class="my-3 text-danger">Are you sure?</h5>
+    <h5 class="my-3 text-danger">Are you sure you want to delete this ticket?</h5>
 
     <!-- display the student using a <dl> as per Details.cshtml -->
     <div class="col">
-        <dl class="row">       
+        <dl class="row">
             <dt class="col-5">Student</dt>
             <dd class="col-7">@Model.Student.Name</dd>
 
             <dt class="col-5">Issue</dt>
             <dd class="col-7">@Model.Issue</dd>
-            
+
             <dt class="col-5">Created</dt>
             <dd class="col-7">@Model.CreatedOn.ToShortDateString()</dd>
-            
+
             <dt class="col-5">Active</dt>
-            <dd class="col-7">@Model.Active</dd>           
+            <dd class="col-7">@Model.Active</dd>
+
         </dl>
     </div>
 
     <div class="mt-4">
-        <!-- TBC -->
-        <!-- add a form with hidden input named Id storing the ticket id  -->
-        <!-- the form asp-action should call TicketDeleteConfirm          -->
-        <!-- add a form input field with type of submit and value Confirm -->
-        <!--   this submit field can be styled as a danger button         -->
+        <form asp-action="TicketDeleteConfirm" type="post">
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="StudentId" />
+            <input type="submit" value="Delete" class="btn btn-danger" />
+            <a class="btn btn-secondary" asp-controller="Student" asp-action="Details"
+                asp-route-id="@Model.StudentId">Cancel</a>
+        </form>
+       
     </div>
-    
+
 </div>

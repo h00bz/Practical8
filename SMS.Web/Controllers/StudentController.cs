@@ -11,7 +11,7 @@ public class StudentController : Controller
 
     public StudentController()
     {
-        svc = new StudentServiceDb();            
+        svc = new StudentServiceDb();
     }
 
     // GET /student
@@ -19,7 +19,7 @@ public class StudentController : Controller
     {
         // TBC - load students using service and pass to view
         var data = svc.GetStudents();
-        
+
         return View(data);
     }
 
@@ -28,7 +28,7 @@ public class StudentController : Controller
     {
         // retrieve the student with specifed id from the service
         var s = svc.GetStudent(id);
-      
+
         // TBC check if s is null and return NotFound()  
 
         // pass student as parameter to the view
@@ -47,7 +47,7 @@ public class StudentController : Controller
     public IActionResult Create(Student s)
     {
         Console.WriteLine($"Post: {s}");
-        
+
         // complete POST action to add student
         if (ModelState.IsValid)
         {
@@ -55,10 +55,10 @@ public class StudentController : Controller
             s = svc.AddStudent(s);
             if (s is not null)
             {
-                return RedirectToAction(nameof(Details), new { Id = s.Id});
+                return RedirectToAction(nameof(Details), new { Id = s.Id });
             }
         }
-        
+
         // redisplay the form for editing as there are validation errors
         return View(s);
     }
@@ -73,7 +73,7 @@ public class StudentController : Controller
         if (s is null)
         {
             return NotFound();
-        }  
+        }
 
         // pass student to view for editing
         return View(s);
@@ -104,8 +104,8 @@ public class StudentController : Controller
         if (s == null)
         {
             return NotFound();
-        }     
-        
+        }
+
         // pass student to view for deletion confirmation
         return View(s);
     }
@@ -116,12 +116,12 @@ public class StudentController : Controller
     {
         // TBC delete student via service
         svc.DeleteStudent(id);
-        
+
         // redirect to the index view
         return RedirectToAction(nameof(Index));
     }
 
-     // ============== Student ticket management ==============
+    // ============== Student ticket management ==============
 
     // GET /student/ticketcreate/{id}
     public IActionResult TicketCreate(int id)
@@ -133,9 +133,9 @@ public class StudentController : Controller
         }
 
         // create a ticket view model and set foreign key
-        var ticket = new Ticket { StudentId = id }; 
+        var ticket = new Ticket { StudentId = id };
         // render blank form
-        return View( ticket );
+        return View(ticket);
     }
 
     // POST /student/ticketcreate
@@ -143,7 +143,7 @@ public class StudentController : Controller
     public IActionResult TicketCreate(Ticket t)
     {
         if (ModelState.IsValid)
-        {                
+        {
             var ticket = svc.CreateTicket(t.StudentId, t.Issue);
             return RedirectToAction(nameof(Details), new { Id = ticket.StudentId });
         }
@@ -160,23 +160,24 @@ public class StudentController : Controller
         if (ticket == null)
         {
             return NotFound();
-        }     
-        
+        }
+
         // pass ticket to view for deletion confirmation
         return View(ticket);
     }
 
     // POST /student/ticketdeleteconfirm/{id}
     [HttpPost]
-    public IActionResult TicketDeleteConfirm(int id)
+    public IActionResult TicketDeleteConfirm(int id, int studentId)
     {
         // TBC 
-        
+
         // delete student via service
-            
+        svc.DeleteTicket(id);
+
         // Q4 replace with redirect to List of students       
         // Q5 replace redirect to List of students with redirect to current student 
-        return NotFound();
+        return RedirectToAction(nameof(Details), new { Id = studentId });
     }
 
 }

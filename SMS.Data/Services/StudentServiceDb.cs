@@ -172,8 +172,13 @@ public class StudentServiceDb : IStudentService
     {
         // TBC
         // find ticket
-        
-        
+        var t= GetTicket(id);
+        if (t is null)
+            return false;
+
+        var result=db.Tickets.Remove(t);
+        db.SaveChanges();
+    
         // remove ticket 
         
         return true;
