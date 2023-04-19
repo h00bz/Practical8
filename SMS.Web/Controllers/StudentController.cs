@@ -30,7 +30,10 @@ public class StudentController : Controller
         var s = svc.GetStudent(id);
 
         // TBC check if s is null and return NotFound()  
-
+        if (s is null)
+        {
+            return NotFound();
+        }
         // pass student as parameter to the view
         return View(s);
     }
@@ -57,6 +60,7 @@ public class StudentController : Controller
             {
                 return RedirectToAction(nameof(Details), new { Id = s.Id });
             }
+            ModelState.AddModelError("Email", "Email must be unique");
         }
 
         // redisplay the form for editing as there are validation errors
